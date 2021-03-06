@@ -8,7 +8,7 @@ const Database = require("../../Database");
 const dbUrl = new Database(process.env.DB_URI);
 const dbUrlStats = new Database(process.env.DB_STATS_URI);
 
-router.post("/shorturl/new", (req, res) => {
+router.post("/new", (req, res) => {
 	const { originalUrl } = req.body;
 	const baseUrl = process.env.BASE_URL;
 
@@ -65,25 +65,6 @@ router.post("/shorturl/new", (req, res) => {
 	} else {
 		return res.status(401).json("Invalid long url");
 	}
-});
-
-router.get("/:urlCode", (req, res) => {
-	const { urlCode } = req.params;
-
-	dbUrl.find("urlCode", urlCode).then((url) => {
-		if (url) {
-			dbUrlStats.read().then((bin) => {
-				bin.forEach((value) => {
-					if (value.urlCode === urlCode) {
-						value.redirectCount++;
-					}
-				});
-				dbUrlStats.update(bin).then(() => res.redirect(url.originalUrl));
-			});
-		} else {
-			res.status(404).json("URL code not found...");
-		}
-	});
 });
 
 module.exports = router;
