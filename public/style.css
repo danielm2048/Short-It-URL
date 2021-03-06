@@ -1,46 +1,124 @@
 body {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  color: #222;
-  background-color: #fff;
-  text-align: center;
-  line-height: 1.4em;
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+	color: #222;
+	background-color: #fff;
+	text-align: center;
+	font-family: "Rubik", sans-serif;
 }
 
 main {
-  padding: 0;
-  margin-top: 40px;
+	padding: 0;
+	margin-top: 40px;
+}
+
+.welcome {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.welcome-text {
+	font-size: 60px;
+	width: 35%;
+	word-wrap: break-word;
+	align-self: center;
+	height: auto;
+}
+
+.color-text {
+	color: #ffc801;
+}
+
+.www-girl {
+	width: 40rem;
+	height: 40rem;
+	margin-right: 0;
 }
 
 h3 {
-  margin-top: 30px;
+	margin-top: 30px;
 }
 
-
-
 .user-stories li {
-  margin-bottom: 1em;
+	margin-bottom: 1em;
 }
 
 a {
-  color: #2574a9;
+	color: #2574a9;
 }
 
-form {
-  margin: 10px auto;
-  padding: 20px;
-  max-width: 600px;
+fieldset {
+	width: 80%;
+	padding: 60px;
+	margin: 0 auto;
+	border-radius: 5px;
+	background-color: #343a40;
+	border: none;
 }
 
 label {
-  margin-right: 10px;
+	margin-right: 10px;
+	color: white;
 }
 
-input {
-  padding: 5px;
+input[type="submit"] {
+	padding: 15px 40px;
+	font-size: 18px;
+	border-radius: 5px;
+	background-color: #ffc801;
+	/* color: white; */
+	border: none;
+	outline: none;
+	cursor: pointer;
 }
 
-input[type='text'] {
-  width: 220px;
-  text-align: center;
+input[type="submit"]:hover {
+	opacity: 0.8;
+}
+
+input[type="text"] {
+	width: 65%;
+	border-radius: 5px;
+	padding: 15px;
+	font-size: 18px;
+	text-align: center;
+	margin-right: 10px;
+}
+
+#url-details {
+	display: none;
+	width: 100%;
+	text-decoration: none;
+	margin-top: 10px;
+	font-size: 24px;
+}
+
+footer {
+	font-size: 22px;
+}
+
+.lds-dual-ring {
+	display: none;
+	width: 80px;
+	height: 80px;
+	margin-bottom: 10px;
+}
+.lds-dual-ring:after {
+	content: " ";
+	display: block;
+	width: 64px;
+	height: 64px;
+	margin: 8px;
+	border-radius: 50%;
+	border: 6px solid #000;
+	border-color: #000 transparent #000 transparent;
+	animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
