@@ -6,8 +6,16 @@ const { nanoid } = require("nanoid");
 
 const Database = require("../../Database");
 
-const dbUrl = new Database(process.env.DB_URI);
-const dbUrlStats = new Database(process.env.DB_STATS_URI);
+let dbs;
+
+if (process.env.NODE_ENV === "test") {
+	const dbTest = new Database(process.env.DB_TEST_URI);
+	dbs = [dbTest, dbTest];
+} else {
+	const dbUrl = new Database(process.env.DB_URI);
+	const dbUrlStats = new Database(process.env.DB_STATS_URI);
+	dbs = [dbUrl, dbUrlStats];
+}
 
 const lookupPromise = (originalUrl) =>
 	new Promise((resolve, reject) => {
@@ -34,14 +42,14 @@ router.post("/new", (req, res) => {
 			if (validUrl.isUri(originalUrl)) {
 				const urlCode = nanoid(8);
 
-				dbUrl
+				dbs[0]
 					.find("originalUrl", originalUrl)
 					.then((url) => {
 						if (url) {
 							res.json(url);
 						} else {
 							const shortUrl = `${baseUrl}/${urlCode}`;
-							Promise.all([dbUrl.read(), dbUrlStats.read()])
+							Promise.all([dbs[0].read(), dbs[1].read()])
 								.then((bins) => {
 									const newUrl = {
 										originalUrl,
@@ -63,10 +71,7 @@ router.post("/new", (req, res) => {
 
 									bins[1].push(newUrlStats);
 
-									Promise.all([
-										dbUrl.update(bins[0]),
-										dbUrlStats.update(bins[1]),
-									])
+									Promise.all([dbs[0].update(bins[0]), dbs[1].update(bins[1])])
 										.then(() => res.json(newUrl))
 										.catch((err) => {
 											console.error(err);

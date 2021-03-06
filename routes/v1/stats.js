@@ -3,13 +3,17 @@ const router = require("express").Router();
 
 const Database = require("../../Database");
 
-const dbUrlStats = new Database(process.env.DB_STATS_URI);
+let uri =
+	process.env.NODE_ENV === "test"
+		? process.env.DB_TEST_URI
+		: process.env.DB_STATS_URI;
+
+const db = new Database(uri);
 
 router.get("/:urlCode", (req, res) => {
 	const { urlCode } = req.params;
 
-	dbUrlStats
-		.find("urlCode", urlCode)
+	db.find("urlCode", urlCode)
 		.then((stats) => {
 			if (stats) {
 				res.json(stats);
