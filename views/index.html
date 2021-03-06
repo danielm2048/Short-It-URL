@@ -73,7 +73,7 @@
 						loader.style.display = "none";
 					})
 					.catch((err) => {
-						alert(err);
+						alert(err.response.data);
 						urlDetails.style.display = "none";
 						loader.style.display = "none";
 					});
