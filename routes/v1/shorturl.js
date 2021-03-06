@@ -17,7 +17,7 @@ router.post("/new", (req, res) => {
 	}
 
 	if (validUrl.isUri(originalUrl)) {
-		const urlCode = nanoid();
+		const urlCode = nanoid(10);
 
 		dbUrl
 			.find("originalUrl", originalUrl)
