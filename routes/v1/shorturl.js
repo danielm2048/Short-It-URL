@@ -52,7 +52,10 @@ router.post("/new", (req, res) => {
 									bins[0].push(newUrl);
 
 									const newUrlStats = {
-										creationDate: new Date(),
+										creationDate: new Date()
+											.toISOString()
+											.slice(0, 19)
+											.replace("T", " "),
 										redirectCount: 0,
 										originalUrl,
 										urlCode,
