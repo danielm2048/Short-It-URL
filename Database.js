@@ -27,10 +27,7 @@ class Database {
 	update(bin) {
 		return axios
 			.put(this.uri, JSON.stringify({ bin: bin }), {
-				headers: {
-					"Content-Type": "application/json",
-					"X-Master-Key": process.env.SECRET_KEY,
-				},
+				headers,
 			})
 			.then((res) => res.data)
 			.catch((err) => console.error(err));
@@ -39,10 +36,7 @@ class Database {
 	find(param, value) {
 		return axios
 			.get(`${this.uri}/latest`, {
-				headers: {
-					"Content-Type": "application/json",
-					"X-Master-Key": process.env.SECRET_KEY,
-				},
+				headers,
 			})
 			.then((res) => {
 				const data = res.data.record["bin"];

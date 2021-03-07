@@ -1,5 +1,6 @@
 require("dotenv").config();
 const dns = require("dns");
+const url = require("url");
 const router = require("express").Router();
 const validUrl = require("valid-url");
 const { nanoid } = require("nanoid");
@@ -19,9 +20,9 @@ if (process.env.NODE_ENV === "test") {
 
 const lookupPromise = (originalUrl) =>
 	new Promise((resolve, reject) => {
-		const REPLACE_REGEX = /^https?:\/\//i;
+    const parsedOriginalUrl = url.parse(originalUrl);
 
-		const hostname = originalUrl.replace(REPLACE_REGEX, "");
+		const hostname = parsedOriginalUrl.hostname;
 
 		dns.lookup(hostname, (err, address) => {
 			if (err) reject(err);
