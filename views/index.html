@@ -1,33 +1,83 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <title>URL Shortener</title>
-    <link rel="icon" type="image/png" href="../public/favicon.ico" />
-    <link href="./public/style.css" rel="stylesheet" type="text/css" />
-  </head>
+	<head>
+		<title>URL Shortener</title>
+		<link rel="icon" type="image/png" href="../public/favicon.ico" />
+		<link href="./public/style.css" rel="stylesheet" type="text/css" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
+			rel="stylesheet"
+		/>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	</head>
 
-  <body>
-    <h1>URL Shortener Microservice</h1>
-    <main>
-      <section>
-        <form action="api/shorturl/new" method="POST">
-          <fieldset>
-            <legend>URL Shortener</legend>
-            <label for="url_input">URL:</label>
-            <input
-              id="url_input"
-              type="text"
-              name="url"
-              placeholder="https://www.freecodecamp.org/"
-            />
-            <input type="submit" value="POST URL" />
-          </fieldset>
-        </form>
-      </section>
-    </main>
-    <footer>
-      <p>By <a href="https://www.freecodecamp.org/">freeCodeCamp</a></p>
-    </footer>
-  </body>
+	<body>
+		<a href="https://www.fontspace.com/category/handwriting"
+			><img
+				src="https://see.fontimg.com/api/renderfont4/5Y58/eyJyIjoiZnMiLCJoIjo4MSwidyI6MTI1MCwiZnMiOjY1LCJmZ2MiOiIjRjdEMTE4IiwiYmdjIjoiI0ZGRkZGRiIsInQiOjF9/U2hvcnQgaXQ/vegan-style-personal-use.png"
+				alt="Handwriting fonts"
+		/></a>
+		<main>
+			<div class="welcome">
+				<p class="welcome-text">
+					Use <i>Short It</i> now to make your links
+					<span class="color-text">pop!</span>
+				</p>
+				<img class="www-girl" src="./public/www-girl.jpg" alt="www-girl" />
+			</div>
+			<div id="loader" class="lds-dual-ring"></div>
+			<section>
+				<form onsubmit="onSubmit(event)" action="javascript:void(0)">
+					<fieldset>
+						<label for="url_input">URL:</label>
+						<input
+							id="url_input"
+							type="text"
+							name="url"
+							placeholder="Place your url here..."
+						/>
+						<input type="submit" value="Shorten 🔗" />
+					</fieldset>
+				</form>
+
+				<div id="url-details">
+					<p>Your short URL 👇:</p>
+					<a id="short-url"></a>
+				</div>
+			</section>
+		</main>
+		<footer>
+			<p>Made with ❤️ by Daniel Mimoun</p>
+		</footer>
+
+		<script>
+			function onSubmit(e) {
+				e.preventDefault();
+
+				const urlInput = document.querySelector("#url_input").value;
+				const urlDetails = document.querySelector("#url-details");
+				const shortUrl = document.querySelector("#short-url");
+
+				const loader = document.querySelector("#loader");
+				loader.style.display = "inline-block";
+
+				axios
+					.post("/api/shorturl/new", { originalUrl: urlInput })
+					.then((res) => {
+						const urlData = res.data;
+						shortUrl.setAttribute("href", urlData.shortUrl);
+						shortUrl.innerText = urlData.shortUrl;
+						urlDetails.style.display = "inline-block";
+						loader.style.display = "none";
+					})
+					.catch((err) => {
+						alert(err.response.data);
+						urlDetails.style.display = "none";
+						loader.style.display = "none";
+					});
+			}
+		</script>
+	</body>
 </html>
